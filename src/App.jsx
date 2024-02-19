@@ -1,11 +1,15 @@
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import "./App.css";
 
 function App() {
+  let [darkmode, setDarkmode] = useState(false);
   return (
-    <>
-      {" "}
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+    <div className={"app " + (darkmode && "dark ")}>
+      <div className="">
+        <Outlet context={[darkmode, setDarkmode]} />
+      </div>
+    </div>
   );
 }
 
