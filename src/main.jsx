@@ -14,6 +14,7 @@ import Schedule from "./Pages/Schedule.jsx";
 import ClassDetails from "./Pages/ClassDetails.jsx";
 import ErrorView from "./Pages/ErrorView.jsx";
 import Login from "./Pages/Login.jsx";
+import Navigation from "./components/Navigation.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/search" element={<SearchPage />} />
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/navigation" element={<Navigation />} />
     </Route>
   )
 );
