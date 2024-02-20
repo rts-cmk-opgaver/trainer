@@ -21,7 +21,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />} errorElement={<ErrorView />}>
       <Route index element={<Welcome />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/class/:id" element={<ClassDetails />} />
+      <Route path="/class-details/:id" element={<ClassDetails />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/schedule" element={<Schedule />} />
       <Route path="/login" element={<Login />} />
