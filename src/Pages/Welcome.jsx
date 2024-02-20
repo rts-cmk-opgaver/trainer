@@ -2,7 +2,7 @@ import React from "react";
 
 const Welcome = () => {
   return (
-    <main className="relative h-screen flex flex-col">
+    <section className="relative h-screen flex flex-col">
       <img
         src="src/assets/Welcometop.jpg"
         alt="Welcome background"
@@ -25,7 +25,7 @@ const Welcome = () => {
           </a>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 
