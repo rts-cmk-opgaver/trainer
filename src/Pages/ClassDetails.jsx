@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaArrowLeft } from "react-icons/fa";
+import BurgerMenu from "../components/BurgerMenu";
 
 const ClassDetails = () => {
   const [classDetails, setClassDetails] = useState(null);
@@ -34,6 +35,12 @@ const ClassDetails = () => {
         alt={classDetails.className}
         className="w-full h-full object-cover"
       />
+      <div className="absolute top-0 left-0 w-full text-white flex items-center justify-between py-2 px-4">
+        <button className="">
+          <FaArrowLeft className="h-6 w-6 " />
+        </button>
+        <BurgerMenu menuIconColor="white" />
+      </div>
       <div className="absolute top-3/4 left-0 transform -translate-y-1/2 w-full px-4">
         <h1 className="text-4xl font-bold text-[#F1C40E]">
           {classDetails.className}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa6";
 import Classes from "../components/Classes";
+import BurgerMenu from "../components/BurgerMenu";
 
 const Home = () => {
   const [classes, setClasses] = useState([]);
@@ -15,7 +16,6 @@ const Home = () => {
       .then((data) => {
         setClasses(data);
         if (data.length > 0) {
-          // Pick a random class for the Popular classes section
           const randomIndex = Math.floor(Math.random() * data.length);
           setPopularClass(data[randomIndex]);
         }
@@ -26,9 +26,9 @@ const Home = () => {
   return (
     <>
       <main className=" items-center mb-[48px]">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl">Popular classes</h1>
-          <p>Burgermenu</p>
+        <div className="flex justify-between p-2 my-6">
+          <h1 className="text-2xl">Popular Classes</h1>
+          <BurgerMenu iconColor="gray" />
         </div>
         {popularClass && (
           <section className="relative w-[335px] h-[404px] my-4">

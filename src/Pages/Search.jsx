@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Classes from "../components/Classes";
+import BurgerMenu from "../components/BurgerMenu";
 import { FaArrowLeft, FaBars, FaSearch } from "react-icons/fa";
 
 const Search = () => {
@@ -29,9 +30,7 @@ const Search = () => {
             <FaArrowLeft className="h-6 w-6" />
             <h1 className="font-semibold">Search</h1>
           </div>
-          <button className="text-gray-500 focus:outline-none">
-            <FaBars className="h-6 w-6" />
-          </button>
+          <BurgerMenu iconColor="gray" />
         </div>
         <div className="flex items-center rounded-full mb-8 mt-4 shadow-sm border border-solid border-[#D4D4D4]">
           <FaSearch className="text-gray-400 ml-4" />
