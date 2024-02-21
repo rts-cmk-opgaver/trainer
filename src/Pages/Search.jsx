@@ -1,7 +1,9 @@
+import Classes from "../components/Classes";
+
 const Search = () => {
   return (
     <>
-      <h1>Search</h1>
+      <Classes title="" />
     </>
   );
 };
