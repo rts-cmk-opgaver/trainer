@@ -48,11 +48,9 @@ const Home = () => {
               </div>
             </Link>
           </section>
-        )}
-      </main>
-      <section>
+        )}{" "}
         <Classes />
-      </section>
+      </main>
     </>
   );
 };

@@ -17,37 +17,35 @@ const ClassesList = ({ title }) => {
 
   return (
     <>
-      <main>
-        <h2 className="text-xl font-bold">{title || "Classes for You"}</h2>
-        <div className="flex overflow-x-auto no-scrollbar">
-          {classes.map((classItem) => (
-            <section
-              key={classItem.id}
-              className="flex-shrink-0 w-[200px] h-[200px] relative m-2"
-            >
-              <Link to={`/class-details/${classItem.id}`}>
-                <div className="relative rounded-2xl h-full">
-                  <img
-                    src={classItem.asset.url}
-                    alt={classItem.className}
-                    className="w-full h-full object-cover rounded-2xl"
-                  />
-                  <div className="absolute bottom-0 left-0 w-full h-[72px] p-2 bg-[#F1C40E] font-bold text-black text-sm rounded-bl-2xl rounded-tr-[48px]">
-                    {classItem.className}
-                    <div className="flex space-x-2 pt-2">
-                      {stars.map((star, index) => (
-                        <React.Fragment key={`${classItem.id}-${index}`}>
-                          {star}
-                        </React.Fragment>
-                      ))}
-                    </div>
+      <h2 className="text-xl font-bold">{title || "Classes for You"}</h2>
+      <div className="flex overflow-x-auto no-scrollbar">
+        {classes.map((classItem) => (
+          <section
+            key={classItem.id}
+            className="flex-shrink-0 w-[200px] h-[200px] relative m-2"
+          >
+            <Link to={`/class-details/${classItem.id}`}>
+              <div className="relative rounded-2xl h-full">
+                <img
+                  src={classItem.asset.url}
+                  alt={classItem.className}
+                  className="w-full h-full object-cover rounded-2xl"
+                />
+                <div className="absolute bottom-0 left-0 w-full h-[72px] p-2 bg-[#F1C40E] font-bold text-black text-sm rounded-bl-2xl rounded-tr-[48px]">
+                  {classItem.className}
+                  <div className="flex space-x-2 pt-2">
+                    {stars.map((star, index) => (
+                      <React.Fragment key={`${classItem.id}-${index}`}>
+                        {star}
+                      </React.Fragment>
+                    ))}
                   </div>
                 </div>
-              </Link>
-            </section>
-          ))}
-        </div>
-      </main>
+              </div>
+            </Link>
+          </section>
+        ))}
+      </div>
     </>
   );
 };
