@@ -1,5 +1,6 @@
 import Navigation from "../components/Navigation";
-import { HiMenuAlt3, HiX } from "react-icons/hi"; // Import the HiX icon
+import { HiMenuAlt3, HiX } from "react-icons/hi";
+
 import React, { useState } from "react";
 
 const BurgerMenu = ({ menuIconColor }) => {

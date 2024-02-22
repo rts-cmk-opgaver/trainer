@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Classes from "../components/Classes";
 import BurgerMenu from "../components/BurgerMenu";
 import { FaArrowLeft, FaBars, FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const Search = () => {
   const [trainerDetails, setTrainerDetails] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:4000/api/v1/trainers`)
       .then((response) => response.json())
@@ -27,7 +28,10 @@ const Search = () => {
       <main>
         <div className="flex items-center justify-between bg-white py-2 ">
           <div className="flex items-center space-x-2 text-gray-500 focus:outline-none">
-            <FaArrowLeft className="h-6 w-6" />
+            <FaArrowLeft
+              onClick={() => navigate(-1)}
+              className="h-6 w-6 cursor-pointer"
+            />
             <h1 className="font-semibold">Search</h1>
           </div>
           <BurgerMenu iconColor="gray" />
