@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaStar, FaArrowLeft } from "react-icons/fa";
 import BurgerMenu from "../components/BurgerMenu";
+import { useNavigate } from "react-router-dom";
 
 const ClassDetails = () => {
   const [classDetails, setClassDetails] = useState(null);
   const [trainerDetails, setTrainerDetails] = useState(null);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const ClassDetails = () => {
       />
       <div className="absolute top-0 left-0 w-full text-white flex items-center justify-between py-2 px-4">
         <button className="">
-          <FaArrowLeft className="h-6 w-6 " />
+          <FaArrowLeft onClick={() => navigate(-1)} className="h-6 w-6 " />
         </button>
         <BurgerMenu menuIconColor="white" />
       </div>
