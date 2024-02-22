@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
-const ClassesList = ({ title }) => {
+const ClassesList = ({ title, searchTerm }) => {
   const [classes, setClasses] = useState([]);
+  //rating
   const stars = Array(5).fill(<FaStar />);
 
   useEffect(() => {
@@ -15,11 +16,16 @@ const ClassesList = ({ title }) => {
       .catch((error) => console.error(error));
   }, []);
 
+  //function filter classes
+  const filteredClasses = classes.filter((classItem) =>
+    classItem.className.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <h2 className="text-xl font-bold">{title || "Classes for You"}</h2>
       <div className="flex overflow-x-auto no-scrollbar">
-        {classes.map((classItem) => (
+        {filteredClasses.map((classItem) => (
           <section
             key={classItem.id}
             className="flex-shrink-0 w-[200px] h-[200px] relative m-2"
