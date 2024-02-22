@@ -1,20 +1,20 @@
 const Navigation = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center text-black items-center h-screen">
       <ul className="text-2xl space-y-10 text-center">
-        <li className="">
+        <li>
           <a href="/home">Home</a>
         </li>
-        <li className="/search">
-          <a href="#">Search</a>
+        <li>
+          <a href="/search">Search</a>
         </li>
-        <li className="/schedule">
-          <a href="#">My Schedule</a>
+        <li>
+          <a href="/schedule">My Schedule</a>
         </li>
-        <li className="/login">
-          <a href="#">Log in</a>
+        <li>
+          <a href="/login">Log in</a>
         </li>
-        <li className="">
+        <li>
           <a href="#">Log out</a>
         </li>
       </ul>
