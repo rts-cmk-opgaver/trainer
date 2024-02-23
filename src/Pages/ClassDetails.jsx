@@ -1,91 +1,137 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaStar, FaArrowLeft } from "react-icons/fa";
+import Loading from "../components/Loader";
 import BurgerMenu from "../components/BurgerMenu";
-import { useNavigate } from "react-router-dom";
+import Navigation from "../components/Navigation";
+import { useAuth } from "../Context/Auth";
 
-const ClassDetails = () => {
-  const [classDetails, setClassDetails] = useState(null);
-  const [trainerDetails, setTrainerDetails] = useState(null);
-  const navigate = useNavigate();
+const ClassView = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { token, userId } = useAuth();
+  const [workout, setWorkout] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [userIsRegistered, setUserIsRegistered] = useState(false);
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const [trainer, setTrainer] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/api/v1/classes/${id}`)
-      .then((response) => response.json())
-      .then((data) => setClassDetails(data))
-      .catch((error) => console.error("Failed to fetch class details:", error));
+    const fetchClassDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/v1/classes/${id}`
+        );
+        const data = await response.json();
+        setWorkout(data);
+        setLoading(false);
+
+        if (data.trainerId) {
+          const trainerResponse = await fetch(
+            `http://localhost:4000/api/v1/trainers/${data.trainerId}`
+          );
+          const trainerData = await trainerResponse.json();
+          setTrainer(trainerData);
+        }
+      } catch (error) {
+        console.error("Error fetching class details:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchClassDetails();
+    setUserIsRegistered(false);
   }, [id]);
 
-  useEffect(() => {
-    fetch(`http://localhost:4000/api/v1/trainers/${id}`)
-      .then((response) => response.json())
-      .then((data) => setTrainerDetails(data))
-      .catch((error) =>
-        console.error("Failed to fetch trainer details:", error)
-      );
-  }, [id]);
+  const handleSignUp = async () => {
+    const method = userIsRegistered ? "DELETE" : "POST";
+    const apiUrl = `http://localhost:4000/api/v1/users/${userId}/classes/${id}`;
 
-  const stars = Array(5).fill(<FaStar />);
+    try {
+      const response = await fetch(apiUrl, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  if (!classDetails || !trainerDetails) return <div>Loading...</div>;
+      if (!response.ok)
+        throw new Error(`${method} request failed: ${response.statusText}`);
+
+      setUserIsRegistered(!userIsRegistered);
+      console.log(`${method} request successful!`);
+    } catch (error) {
+      console.error("Error handling sign up:", error);
+    }
+  };
+
+  const toggleNavigation = () => setIsNavigationOpen((prev) => !prev);
+
+  if (loading) return <Loading />;
+  if (!workout)
+    return <div>Sorry... No data available for this class at the moment.</div>;
 
   return (
-    <div className="relative w-full h-[28rem]">
-      <img
-        src={classDetails.asset.url}
-        alt={classDetails.className}
-        className="w-full h-full object-cover"
-      />
-      <div className="absolute top-0 left-0 w-full text-white flex items-center justify-between py-2 px-4">
-        <button className="">
-          <FaArrowLeft onClick={() => navigate(-1)} className="h-6 w-6 " />
-        </button>
-        <BurgerMenu menuIconColor="white" />
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between bg-white py-2 px-4">
+        <FaArrowLeft
+          className="h-6 w-6 cursor-pointer"
+          onClick={() => navigate(-1)}
+        />
+        <h1 className="font-semibold">Class Details</h1>
+        <BurgerMenu iconColor="gray" onToggle={toggleNavigation} />
       </div>
-      <div className="absolute top-3/4 left-0 transform -translate-y-1/2 w-full px-4">
-        <h1 className="text-4xl font-bold text-[#F1C40E]">
-          {classDetails.className}
-        </h1>
-        <div className="flex items-center justify-between space-x-4 mt-4">
-          <div className="flex items-center space-x-3 text-[#F1C40E]">
-            {stars.map((star, index) => (
-              <React.Fragment key={index}>{star}</React.Fragment>
+      <div
+        className="bg-cover bg-center w-full"
+        style={{
+          height: "432px",
+          backgroundImage: `url(${workout.asset.url})`,
+        }}
+      >
+        <div className="text-4xl text-yellow-400 mt-64 font-bold p-4">
+          {workout.className}
+        </div>
+
+        <div className="flex gap-2 items-center text-yellow-400 p-4">
+          {Array(5)
+            .fill(null)
+            .map((_, index) => (
+              <FaStar key={index} />
             ))}
-            <p className="font-bold">5/5</p>
-          </div>
-          <button className="border-2 hover:bg-[#f1c40ebc] hover:text-white border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400">
+          5/5
+          <button className="border-2 ml-96 hover:bg-[#f1c40ebc] hover:text-white border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400">
             RATE
           </button>
         </div>
       </div>
-      <main>
-        <div className="flex mt-4 font-bold space-x-2">
-          <h2 className="">{classDetails.classDay}</h2>
-          <p>- {classDetails.classTime}</p>
-        </div>
-        <p className="mt-2">{classDetails.classDescription}</p>
-        <h1 className="font-bold mt-[34px] text-2xl">Trainer</h1>
-        {trainerDetails && (
-          <div className="flex">
-            <img
-              src={trainerDetails.asset.url}
-              alt={`Trainer ${trainerDetails.name}`}
-              className="w-[88px] h-[88px] mt-2 rounded-lg"
-            />
-            <p className="self-center ml-4 font-bold">
-              {trainerDetails.trainerName}
-            </p>
+      <div className="p-4">
+        <p className="mb-4">
+          {workout.classDay} - {workout.classTime}
+        </p>
+        <p>{workout.classDescription}</p>
+        {trainer && (
+          <div>
+            <p className="font-semibold text-xl mt-6">Trainer</p>
+            <div className="flex items-center gap-4 mt-4">
+              <img
+                className="w-[88px] h-[88px] rounded-2xl object-cover"
+                src={trainer.asset.url}
+                alt={trainer.trainerName}
+              />
+              <p className="text-base font-semibold">{trainer.trainerName}</p>
+            </div>
           </div>
         )}
-        <div className="flex justify-center items-center">
-          <button className="w-[334px] mt-[20px] h-[44px] hover:bg-[#ffdc50bc] hover:text-white font-bold rounded-full bg-[#f1c40ebc]">
-            SIGN UP
-          </button>
-        </div>
-      </main>
+        <button
+          className="bg-yellow-400 w-full py-3 rounded-full mt-12"
+          onClick={handleSignUp}
+        >
+          {userIsRegistered ? "Leave" : "Sign Up"}
+        </button>
+      </div>
+      {isNavigationOpen && <Navigation onClose={toggleNavigation} />}
     </div>
   );
 };
 
-export default ClassDetails;
+export default ClassView;
