@@ -6,7 +6,9 @@ import BurgerMenu from "../components/BurgerMenu";
 
 const Home = () => {
   const [classes, setClasses] = useState([]);
+  const [searchTerm] = useState("");
   const [popularClass, setPopularClass] = useState(null);
+
   //stars of 5
   const stars = Array(5).fill(<FaStar />);
 
@@ -49,7 +51,7 @@ const Home = () => {
             </Link>
           </section>
         )}{" "}
-        <Classes />
+        <Classes searchTerm={searchTerm} />
       </main>
     </>
   );
